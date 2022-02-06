@@ -16,6 +16,6 @@ impl Config {
             .merge(Toml::file("config.toml"))
             .join(Env::prefixed("BOT_"))
             .extract()
-            .unwrap()
+            .expect("Failed to load configs")
     }
 }
