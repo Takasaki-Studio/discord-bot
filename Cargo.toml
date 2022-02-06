@@ -1,0 +1,12 @@
+[package]
+name = "discord-bot"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+poise = { git = "https://github.com/kangalioo/poise", rev = "a28b0193ab032aaedb6b383d1be0d717f9dcf775" }
+tokio = { version = "1.16.1", features = ["macros", "rt-multi-thread"] }
+serde = "1.0.136"
+figment = { version = "0.10.6", features = ["env", "toml"] }
