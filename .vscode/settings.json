@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "builtins",
-        "dotenv"
+        "dotenv",
+        "tokio"
     ],
     "cSpell.language": "en,pt,pt-BR"
 }
