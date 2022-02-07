@@ -9,6 +9,7 @@ pub struct Config {
     pub token: String,
     pub owner_id: u64,
     pub suggestion_channel: u64,
+    pub welcome_channel: u64,
 }
 
 impl Config {

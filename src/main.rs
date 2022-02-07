@@ -1,10 +1,12 @@
 mod commands;
 mod config;
+mod events;
+mod helpers;
 
 use config::Config;
+
 use poise::{
-    serenity_prelude::{self, ReactionType},
-    Event, Framework, FrameworkOptions, PrefixFrameworkOptions,
+    serenity_prelude::GatewayIntents, Framework, FrameworkOptions, PrefixFrameworkOptions,
 };
 
 pub struct Data {
@@ -13,25 +15,6 @@ pub struct Data {
 
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
 pub type Context<'a> = poise::Context<'a, Data, Error>;
-
-async fn event_handler(
-    ctx: &serenity_prelude::Context,
-    event: &Event<'_>,
-    _framework: &Framework<Data, Error>,
-    states: &Data,
-) -> Result<(), Error> {
-    if let Event::Message { new_message } = event {
-        if new_message.channel_id.0 == states.config.suggestion_channel {
-            new_message
-                .react(ctx, ReactionType::Unicode("👍".to_owned()))
-                .await?;
-            new_message
-                .react(ctx, ReactionType::Unicode("👎".to_owned()))
-                .await?;
-        }
-    }
-    Ok(())
-}
 
 #[tokio::main]
 async fn main() {
@@ -49,10 +32,11 @@ async fn main() {
             },
             commands: vec![commands::register_commands()],
             listener: |ctx, event, framework, data| {
-                Box::pin(event_handler(ctx, event, framework, data))
+                Box::pin(events::event_handler(ctx, event, framework, data))
             },
             ..Default::default()
         })
+        .client_settings(|s| s.intents(GatewayIntents::all()))
         .run()
         .await
         .unwrap();
